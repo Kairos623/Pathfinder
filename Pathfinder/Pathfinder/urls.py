@@ -12,6 +12,8 @@ router.register(r'FullSession', views.SessionFullViewSet)
 router.register(r'SessionPer', views.SessionViewSetPer)
 router.register(r'SessionFullPer', views.SessionFullViewSetPer)
 router.register(r'CharacterPer', views.CharacterViewSetPer)
+router.register(r'Weapon', views.WeaponViewSet)
+router.register(r'Magic', views.MagicViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls))

@@ -4,8 +4,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from PathBase.Serializers import SessionSerializer, UserSerializer, SessionFullSerializer, CharacterSerializer
-from PathBase.models import User, Session, Character
+from PathBase.Serializers import SessionSerializer, UserSerializer, SessionFullSerializer, CharacterSerializer, \
+    WeaponSerializer, MagicSerializer
+from PathBase.models import User, Session, Character, Weapon, Cell
 from PathBase.permissions import IsStaffOrReadOnly, IsStaff
 
 
@@ -29,9 +30,8 @@ class SessionFullViewSet(viewsets.ModelViewSet):
         data = self.serializer_class(set_emp, many=True).data
         return Response(data)
 
-    # Выбирает последнюю бронь
-    @action(methods=['get'], detail=False, url_path='PT-last')
-    def PT_get_last(self, request):
+    @action(methods=['get'], detail=False, url_path='Session-last')
+    def Session_get_last(self, request):
         set_emp = self.queryset.order_by('NameSession')[:1]
         data = self.serializer_class(set_emp, many=True).data
         return Response(data)
@@ -57,3 +57,20 @@ class CharacterViewSetPer(viewsets.ModelViewSet):
     permission_classes = (IsStaff,)
     queryset = Character.objects.all()
     serializer_class = CharacterSerializer
+
+
+class WeaponViewSet(viewsets.ModelViewSet):
+    queryset = Weapon.objects.all()
+    serializer_class = WeaponSerializer
+
+    @action(methods=['get'], detail=False, url_path='Weapon')
+    def Weapon_only_accountant(self, request):
+        role = request.query_params.get('NameWeapon')
+        set_acc = self.get_queryset().filter(NameWeapon=role)
+        data = self.serializer_class(set_acc, many=True).data
+        return Response(data)
+
+
+class MagicViewSet(viewsets.ModelViewSet):
+    queryset = Cell.objects.all()
+    serializer_class = MagicSerializer

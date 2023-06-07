@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from PathBase.models import User, Session, Character
+from PathBase.models import User, Session, Character, Weapon, Cell
 
 
 class SessionSerializer(serializers.HyperlinkedModelSerializer):
@@ -25,4 +25,14 @@ class SessionFullSerializer(serializers.ModelSerializer):
 class CharacterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Character
+        fields = '__all__'
+
+class WeaponSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Weapon
+        fields = '__all__'
+
+class MagicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cell
         fields = '__all__'
